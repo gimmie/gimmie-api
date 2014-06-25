@@ -1,0 +1,36 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.10+'
+  }
+}
+
+apply plugin: 'java'
+
+dependencies {
+  compile project(':dependencies:websocket')
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src'
+    }
+    resources {
+      srcDir 'resources'
+    }
+  }
+
+  test {
+    java {
+      srcDir 'test'
+    }
+    resources {
+      srcDir 'test/resources'
+    }
+  }
+}
+
