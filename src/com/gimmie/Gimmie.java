@@ -27,14 +27,6 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.provider.Settings.Secure;
-import android.util.Log;
-
 import com.codebutler.android_websockets.WebSocketClient;
 import com.gimmie.components.GimmieComponents;
 import com.gimmie.components.notification.PushNotification;
@@ -146,6 +138,13 @@ public class Gimmie {
 
   private static Gimmie mInstance;
 
+  public static Gimmie getInstance() {
+    if (mInstance == null) {
+      mInstance = new Gimmie();
+    }
+    return mInstance;
+  }
+
   /**
    * Get Gimmie API instance with configuration file or meta-data in
    * AndroidManifest.xml. The configuration file must be project assets folder
@@ -190,8 +189,6 @@ public class Gimmie {
   public static Gimmie getInstance(Context context) {
     if (mInstance == null) {
       mInstance = new Gimmie(context);
-
-      GimmieComponents.registerNotification(context);
     }
     return mInstance;
   }
@@ -262,43 +259,8 @@ public class Gimmie {
     return mInstance;
   }
 
-  Gimmie(Context context) {
-    mConfiguration = new Configuration(context);
-
-    String androidID = Secure.getString(context.getContentResolver(),
-        Secure.ANDROID_ID);
-    if (androidID == null || androidID.length() == 0) {
-      mSharedPreferences = PreferenceManager
-          .getDefaultSharedPreferences(context);
-      Editor editor = mSharedPreferences.edit();
-
-      if (!mSharedPreferences.contains(KEY_LOGIN_NAME)) {
-        editor.putString(KEY_LOGIN_NAME, "guest:android_"
-            + UUID.randomUUID().toString());
-        editor.commit();
-      }
-      androidID = mSharedPreferences.getString(KEY_LOGIN_NAME, "");
-      Log.v(LOG_TAG, "random generate user id with UUID: " + androidID);
-    } else {
-      androidID = "guest:android_" + androidID;
-    }
-    mDeviceID = androidID;
-
-    mCountry = mConfiguration.getDefaultCountry();
-    mLocale = mConfiguration.getLanguage();
-
-    mComponents = new GimmieComponents(context);
-    mTracker = Tracker.getTracker(context, mConfiguration);
-    mTracker.update();
-  }
-
-  public void updateContext(Context context) {
-    mConfiguration = new Configuration(context);
-    mComponents = new GimmieComponents(context);
-    mTracker = Tracker.getTracker(context, mConfiguration);
-    mTracker.update();
-
-    GimmieComponents.registerNotification(context);
+  Gimmie(Configuration configuration) {
+    mConfiguration = configuration;
   }
 
   /**
@@ -471,7 +433,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -541,7 +503,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -579,7 +541,7 @@ public class Gimmie {
 
         if (rawResult.isSuccess()) {
           JSONObject raw = rawResult.getOutput();
-          Log.v(LOG_TAG, "Trigger response: " + raw.toString());
+          Logger.getInstance().verbose("Trigger response: " + raw.toString());
           CombineResponse response = new CombineResponse(raw, mConfiguration);
           parameters.put(PARAMETER_OUTPUT_KEY, response);
 
@@ -614,11 +576,10 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
-        Log.e(Gimmie.LOG_TAG, error.toString());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
+        Logger.getInstance().error(error.toString());
         if (error.isExceptionType()) {
-          Log.e(Gimmie.LOG_TAG, error.getException().getMessage(),
-              error.getException());
+          Logger.getInstance().error(error.getException().getMessage(), error.getException());
         }
         if (handler == null)
           return;
@@ -701,7 +662,7 @@ public class Gimmie {
     HashMap<String, String> input = new HashMap<String, String>(1);
     input.put("event_name", eventName);
 
-    Log.v(LOG_TAG, "Trigger event: " + eventName);
+    Logger.getInstance().verbose("Trigger event: " + eventName);
     invoke("trigger", input, new AsyncResult<RawRemoteObject>() {
 
       @Override
@@ -712,7 +673,7 @@ public class Gimmie {
 
         if (rawResult.isSuccess()) {
           JSONObject raw = rawResult.getOutput();
-          Log.v(LOG_TAG, "Trigger response: " + raw.toString());
+          Logger.getInstance().verbose("Trigger response: " + raw.toString());
           CombineResponse response = new CombineResponse(raw, mConfiguration);
           parameters.put(PARAMETER_OUTPUT_KEY, response);
 
@@ -747,11 +708,10 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
-        Log.e(Gimmie.LOG_TAG, error.toString());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
+        Logger.getInstance().error(error.toString());
         if (error.isExceptionType()) {
-          Log.e(Gimmie.LOG_TAG, error.getException().getMessage(),
-              error.getException());
+          Logger.getInstance().error(error.getException().getMessage(), error.getException());
         }
         if (handler == null)
           return;
@@ -789,7 +749,7 @@ public class Gimmie {
     HashMap<String, String> input = new HashMap<String, String>(1);
     input.put("event_id", String.format("%d", eventID));
 
-    Log.v(LOG_TAG, "Trigger event: " + eventID);
+    Logger.getInstance().verbose("Trigger event: " + eventID);
     invoke("trigger", input, new AsyncResult<RawRemoteObject>() {
 
       @Override
@@ -800,7 +760,7 @@ public class Gimmie {
 
         if (rawResult.isSuccess()) {
           JSONObject raw = rawResult.getOutput();
-          Log.v(LOG_TAG, "Trigger response: " + raw.toString());
+          Logger.getInstance().verbose("Trigger response: " + raw.toString());
           CombineResponse response = new CombineResponse(raw, mConfiguration);
           parameters.put(PARAMETER_OUTPUT_KEY, response);
 
@@ -834,11 +794,10 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
-        Log.e(Gimmie.LOG_TAG, error.toString());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
+        Logger.getInstance().error(error.toString());
         if (error.isExceptionType()) {
-          Log.e(Gimmie.LOG_TAG, error.getException().getMessage(),
-              error.getException());
+          Logger.error(error.getException().getMessage(), error.getException());
         }
         if (handler == null)
           return;
@@ -917,7 +876,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -986,7 +945,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -1056,7 +1015,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -1121,7 +1080,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.e(Gimmie.LOG_TAG, error.getMessage(), error.getException());
+        Logger.getInstance().error(error.getMessage(), error.getException());
         if (handler == null)
           return;
 
@@ -1194,7 +1153,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -1268,7 +1227,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -1335,7 +1294,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -1421,7 +1380,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -1484,7 +1443,7 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
         if (handler == null)
           return;
 
@@ -1517,7 +1476,7 @@ public class Gimmie {
 
         if (rawResult.isSuccess()) {
           JSONObject raw = rawResult.getOutput();
-          Log.v(LOG_TAG, "Register_token response: " + raw.toString());
+          Logger.getInstance().verbose("Register_token response: " + raw.toString());
           CombineResponse response = new CombineResponse(raw, mConfiguration);
           parameters.put(PARAMETER_OUTPUT_KEY, response);
 
@@ -1552,11 +1511,10 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
-        Log.e(Gimmie.LOG_TAG, error.toString());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
+        Logger.getInstance().error(error.toString());
         if (error.isExceptionType()) {
-          Log.e(Gimmie.LOG_TAG, error.getException().getMessage(),
-              error.getException());
+          Logger.getInstance().error(error.getException().getMessage(), error.getException());
         }
         if (handler == null)
           return;
@@ -1621,11 +1579,10 @@ public class Gimmie {
 
       @Override
       public void getError(final GimmieError error) {
-        Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
-        Log.e(Gimmie.LOG_TAG, error.toString());
+        Logger.getInstance().verbose("Error: " + error.getMessage());
+        Logger.getInstance().error(error.toString());
         if (error.isExceptionType()) {
-          Log.e(Gimmie.LOG_TAG, error.getException().getMessage(),
-              error.getException());
+          Logger.getInstance().error(error.getException().getMessage(), error.getException());
         }
         if (handler == null)
           return;
@@ -1660,14 +1617,14 @@ public class Gimmie {
     socketListener.setClient(client);
     socketListener.setGimmie(this);
     socketListener.setToken(notificationToken);
-    Log.e(Gimmie.LOG_TAG, "opening socket");
+    Logger.getInstance().error("opening socket");
     client.connect();
   }
 
   private void invoke(final String target,
       final Map<String, String> parameters,
       final AsyncResult<RawRemoteObject> result) {
-    Log.v(LOG_TAG, "Call: " + target);
+    Logger.getInstance().verbose("Call: " + target);
     mExecutor.execute(new Runnable() {
 
       @Override
@@ -1695,7 +1652,7 @@ public class Gimmie {
         String paramString = URLEncodedUtils.format(params, "utf-8");
         url.append(paramString);
 
-        Log.v(Gimmie.LOG_TAG, "Get: " + url.toString());
+        Logger.getInstance().verbose("Get: " + url.toString());
 
         OAuthService service = new ServiceBuilder().provider(GimmieApi.class)
             .apiKey(mConfiguration.getKey())
@@ -1790,7 +1747,8 @@ public class Gimmie {
     @Override
     public void onConnect() {
       if(mClient!=null){
-        Log.d(Gimmie.LOG_TAG, "websocket connected");
+
+        Logger.getInstance().debug("websocket connected");
         mClient.send("[\"open:" + mToken + "\"]");
         // poke server for notification data
         mGimmie.invoke("login", null, new AsyncResult<RawRemoteObject>() {
@@ -1801,11 +1759,10 @@ public class Gimmie {
 
           @Override
           public void getError(GimmieError error) {
-            Log.v(Gimmie.LOG_TAG, "Error: " + error.getMessage());
-            Log.e(Gimmie.LOG_TAG, error.toString());
+            Logger.getInstance().verbose("Error: " + error.getMessage());
+            Logger.getInstance().error(error.toString());
             if (error.isExceptionType()) {
-              Log.e(Gimmie.LOG_TAG, error.getException().getMessage(),
-                  error.getException());
+              Logger.getInstance().error(error.getException().getMessage(), error.getException());
             }
           }
         });
@@ -1814,11 +1771,11 @@ public class Gimmie {
 
     @Override
     public void onMessage(String message) {
-      Log.d(Gimmie.LOG_TAG, "onMessage: message= " + message); 
+      Logger.getInstance().debug("onMessage: message=" + message);
       if(message.length()==1)return;
       message =  message.substring(17, message.length()-1);
       message = message.replace("\\", "");
-      Log.d(Gimmie.LOG_TAG, "onMessage: message= " + message); 
+      Logger.getInstance().debug("onMessage: message=" + message);
       JSONArray responseJson;
       JSONObject jObject;
       try {
@@ -1831,7 +1788,7 @@ public class Gimmie {
           }
         }
       } catch (JSONException e) {
-        Log.e(Gimmie.LOG_TAG, "response json parse", e.getMessage());
+        Logger.getInstance().error("response json parse", e.getMessage());
       }
       
     }
@@ -1842,13 +1799,13 @@ public class Gimmie {
 
     @Override
     public void onDisconnect(int code, String reason) {
-      Log.d(Gimmie.LOG_TAG, "onDisconnect: code=" + code + "reason= " + reason); 
+      Logger.getInstance().debug("onDisconnect: code=" + code + "reason=" + reason);
       mClient.connect();
     }
 
     @Override
     public void onError(Exception error) {
-      Log.e(Gimmie.LOG_TAG, error.getMessage(), error);
+      Logger.getInstance().error(error.getMessage(), error);
     }
     
   }

@@ -138,7 +138,7 @@ public class Category extends IDBaseObject {
         rewardsCache = finalList.toArray(new Reward[finalList.size()]);
         return rewardsCache;
       } catch (JSONException e) {
-        Log.e("Gimmie", "Something wrong", e);
+        Logger.getInstance().error("Gimmie", "Something wrong", e);
         return new Reward[0];
       }
     } else {

@@ -62,7 +62,7 @@ public class Claim extends IDBaseObject {
     try {
       return parser.parse(createdAt);
     } catch (ParseException e) {
-      Log.v(Gimmie.LOG_TAG, "Can't parse date format", e);
+      Logger.getInstance().verbose(Gimmie.LOG_TAG, "Can't parse date format", e);
       return null;
     }
   }

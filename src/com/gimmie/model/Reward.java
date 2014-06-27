@@ -113,7 +113,7 @@ public class Reward extends IDBaseObject {
     try {
       return format.parse(mObject.optString("valid_until"));
     } catch (ParseException e) {
-      Log.v(Gimmie.LOG_TAG, "Can't parse valid date", e);
+      Logger.getInstance().error(Gimmie.LOG_TAG, "Can't parse valid date", e);
       return null;
     }
 
@@ -126,7 +126,7 @@ public class Reward extends IDBaseObject {
     try {
       return format.parse(mObject.optString("start_date"));
     } catch (ParseException e) {
-      Log.v(Gimmie.LOG_TAG, "Can't parse start date", e);
+      Logger.getInstance().error("Can't parse start date", e);
       return null;
     }
   }
@@ -138,7 +138,7 @@ public class Reward extends IDBaseObject {
     try {
       return format.parse(mObject.optString("end_date"));
     } catch (ParseException e) {
-      Log.v(Gimmie.LOG_TAG, "Can't parse end date", e);
+      Logger.getInstance().verbose(Gimmie.LOG_TAG, "Can't parse end date", e);
       return null;
     }
   }

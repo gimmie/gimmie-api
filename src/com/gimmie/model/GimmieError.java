@@ -92,7 +92,7 @@ public class GimmieError implements RemoteObject {
       try {
         message = mRawError.getString("message");
       } catch (JSONException e) {
-        Log.d(Gimmie.LOG_TAG, "Can't process JSON error", e);
+        Logger.getInstance().debug(Gimmie.LOG_TAG, "Can't process JSON error", e);
       }
     }
     return message;
@@ -112,7 +112,7 @@ public class GimmieError implements RemoteObject {
       try {
         code = mRawError.getString("code");
       } catch (JSONException e) {
-        Log.d(Gimmie.LOG_TAG, "Can't process JSON error", e);
+        Logger.getInstance().debug(Gimmie.LOG_TAG, "Can't process JSON error", e);
       }
     }
     return code;

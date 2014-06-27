@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+import com.gimmie.Logger;
 
 import com.gimmie.Configuration;
 
@@ -63,7 +63,7 @@ public class Badge extends IDBaseObject {
 					  for(int j=0; j<andRulesRaw.length(); j++){
 						  BadgeRule badgeRule = new BadgeRule(andRulesRaw.getJSONObject(j), mConfiguration);
 						  andRule.add(badgeRule.toString());
-						  Log.d("and rule", badgeRule.toString());
+						  Logger.getInstance().debug("and rule", badgeRule.toString());
 					  }
 				  }//end if
 				  orRules.add(andRule);
@@ -93,14 +93,14 @@ public class Badge extends IDBaseObject {
 								  andRulesRaw.getJSONArray("and").getJSONObject(j)
 								  , mConfiguration);
 						  andRule += badgeRule.toString() + " AND ";
-						  Log.d("and rule", badgeRule.toString());
+              Logger.getInstance().debug("and rule", badgeRule.toString());
 					  }
 					  //the last AND rule:
 					  BadgeRule badgeRule = new BadgeRule(
 							  andRulesRaw.getJSONArray("and").getJSONObject(andRulesRaw.length()-1)
 							  , mConfiguration);
 					  andRule += badgeRule.toString();
-					  Log.d("and rule", badgeRule.toString());
+					  Logger.getInstance().debug("and rule", badgeRule.toString());
 				  }//end if
 				  orRules += andRule + " OR ";
 			  }
@@ -113,14 +113,14 @@ public class Badge extends IDBaseObject {
 				  for(int j=0; j<andRulesRaw.length()-1; j++){
 					  BadgeRule badgeRule = new BadgeRule(andRulesRaw.getJSONArray("and").getJSONObject(j), mConfiguration);
 					  andRule += badgeRule.toString() + " AND ";
-					  Log.d("and rule", badgeRule.toString());
+            Logger.getInstance().debug("and rule", badgeRule.toString());
 				  }
 				  //the last AND rule:
 				  BadgeRule badgeRule = new BadgeRule(
 						  andRulesRaw.getJSONArray("and").getJSONObject(
 								  andRulesRaw.length()-1), mConfiguration);
 				  andRule += badgeRule.toString();
-				  Log.d("and rule", badgeRule.toString());
+          Logger.getInstance().debug("and rule", badgeRule.toString());
 			  }//end if
 			  orRules += andRule;
 		  }//end if

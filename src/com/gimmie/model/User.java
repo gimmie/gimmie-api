@@ -108,8 +108,8 @@ public class User implements RemoteObject {
    * @return progress as Float
    */
   public float getLevelProgressPercent() {
-    Log.d(Gimmie.LOG_TAG, String.format("%s", mObject));
-    Log.d(Gimmie.LOG_TAG, String.format(
+    Logger.getInstance().debug(Gimmie.LOG_TAG, String.format("%s", mObject));
+    Logger.getInstance().debug(Gimmie.LOG_TAG, String.format(
         "Awarded Points: %d Next Level Points: %d", getPointsToNextLevel(),
         getNextLevelPoints()));
     return (float) (getAwardedPoints() - getCurrentLevelPoints())
