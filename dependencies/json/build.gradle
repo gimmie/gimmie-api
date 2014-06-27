@@ -10,11 +10,6 @@ buildscript {
 
 apply plugin: 'java'
 
-dependencies {
-  compile project(':dependencies:websocket')
-  compile project(':dependencies:json')
-}
-
 sourceSets {
   main {
     java {

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.gimmie.Configuration;
 import com.gimmie.Gimmie;
 import com.gimmie.RemoteObject;
+import com.gimmie.Logger;
 
 /**
  * User object that contain points and level information

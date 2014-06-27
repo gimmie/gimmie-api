@@ -1,26 +1,22 @@
 package com.gimmie.trackers;
 
-import android.content.Context;
+import com.gimmie.Configuration;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
  * Created by keang on 5/27/14.
  */
 public class AggregatedTracker extends Tracker{
+
   private Configuration mConfiguration;
-  private Context mContext;
   private ArrayList<Tracker> mTrackers;
 
-  public AggregatedTracker(Context context, Configuration configuration) {
-    mConfiguration = configuration;
-    mContext = context;
-
-    mTrackers = new ArrayList<Tracker>();
-    mTrackers.add(new GATracker(mContext, mConfiguration));
-    //mTrackers.add(new MixPanelTracker(mContext, mConfiguration)); wait till danny pays
-    mTrackers.add(new ParseTracker(mContext, mConfiguration));
-
+  public AggregatedTracker(Tracker[] trackers) {
+    mTrackers = new ArrayList<Tracker>(trackers.length);
+    mTrackers.addAll(Arrays.asList(trackers));
   }
   public void update() {
   }

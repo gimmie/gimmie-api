@@ -1,3 +1,5 @@
+package com.gimmie;
+
 public class Logger {
 
   private static Logger mLogger = null;

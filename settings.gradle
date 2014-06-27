@@ -1,1 +1,2 @@
 include ':dependencies:websocket'
+include ':dependencies:json'

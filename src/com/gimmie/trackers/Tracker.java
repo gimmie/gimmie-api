@@ -1,6 +1,6 @@
 package com.gimmie.trackers;
 
-import android.content.Context;
+import com.gimmie.Configuration;
 
 import java.util.Map;
 
@@ -18,15 +18,14 @@ public abstract class Tracker {
 
   private static Tracker sTracker;
 
-  public static Tracker getTracker(Context context, Configuration configuration) {
+  public static Tracker getTracker(Configuration configuration) {
     if (sTracker == null) {
       synchronized (Tracker.class) {
         if (sTracker == null) {
-          sTracker = new AggregatedTracker(context, configuration);
+          sTracker = new AggregatedTracker(configuration);
         }
       }
     }
-
     return sTracker;
   }
 
