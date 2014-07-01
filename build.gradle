@@ -40,6 +40,11 @@ task release (dependsOn: 'build') << {
     from configurations.compile.files
     into "build/releases"
   }
+
+  copy {
+    from "build/libs"
+    into "build/releases"
+  }
 }
 
 defaultTasks "build"
