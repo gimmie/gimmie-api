@@ -1,11 +1,11 @@
 package com.gimmie.model;
 
-import java.util.Date;
+import com.gimmie.Configuration;
+import com.gimmie.Gimmie;
 
 import org.json.JSONObject;
 
-import com.gimmie.Configuration;
-import com.gimmie.Gimmie;
+import java.util.Date;
 /**
  * Activities model return from Gimmie service from
  * {@link Gimmie#loadRecentActivities(android.os.Handler, com.gimmie.AsyncResult)}

@@ -1,14 +1,13 @@
 package com.gimmie.model;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.util.Log;
-
 import com.gimmie.AsyncResult;
 import com.gimmie.Configuration;
 import com.gimmie.Gimmie;
+import com.gimmie.Logger;
 import com.gimmie.RemoteObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Error wrapper class for JSONObject and Exception when request to service for

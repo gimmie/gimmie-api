@@ -9,8 +9,6 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 public class CombineResponse implements RemoteObject {
 
   public static final String FIELD_ACTIONS = "actions";

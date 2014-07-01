@@ -1,22 +1,21 @@
 package com.gimmie.model;
 
+import com.gimmie.Configuration;
+import com.gimmie.Gimmie;
+import com.gimmie.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import android.util.Log;
-
-import com.gimmie.Configuration;
-import com.gimmie.Gimmie;
-
 /**
  * Reward object in catalogue return with
- * {@link Gimmie#loadCategory(android.os.Handler, com.gimmie.AsyncResult)} api
+ * {@link Gimmie#loadCategory(com.gimmie.AsyncResult)} api
  * 
  * @author llun
  * 
@@ -167,7 +166,7 @@ public class Reward extends IDBaseObject {
    * @return url for claiming object.
    */
   public String getURL() {
-    Gimmie gimmie = Gimmie.getInstance();
+    Gimmie gimmie = Gimmie.getInstance(mConfiguration);
     String fullname = gimmie.getUserInformation(Gimmie.LOGIN_INFORMATION_NAME);
     String email = gimmie.getUserInformation(Gimmie.LOGIN_INFORMATION_EMAIL);
 

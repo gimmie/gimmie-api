@@ -1,15 +1,14 @@
 package com.gimmie.model;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import com.gimmie.Configuration;
+import com.gimmie.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.gimmie.Logger;
-
-import com.gimmie.Configuration;
+import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Badge model returns from Gimmie service in

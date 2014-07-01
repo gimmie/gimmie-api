@@ -1,13 +1,11 @@
 package com.gimmie.model;
 
-import org.json.JSONObject;
-
-import android.util.Log;
-
 import com.gimmie.Configuration;
 import com.gimmie.Gimmie;
-import com.gimmie.RemoteObject;
 import com.gimmie.Logger;
+import com.gimmie.RemoteObject;
+
+import org.json.JSONObject;
 
 /**
  * User object that contain points and level information
@@ -111,8 +109,8 @@ public class User implements RemoteObject {
   public float getLevelProgressPercent() {
     Logger.getInstance().debug(Gimmie.LOG_TAG, String.format("%s", mObject));
     Logger.getInstance().debug(Gimmie.LOG_TAG, String.format(
-        "Awarded Points: %d Next Level Points: %d", getPointsToNextLevel(),
-        getNextLevelPoints()));
+            "Awarded Points: %d Next Level Points: %d", getPointsToNextLevel(),
+            getNextLevelPoints()));
     return (float) (getAwardedPoints() - getCurrentLevelPoints())
         / (float) (getNextLevelPoints() - getCurrentLevelPoints()) * 100;
   }

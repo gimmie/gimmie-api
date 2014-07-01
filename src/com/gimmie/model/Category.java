@@ -1,23 +1,22 @@
 package com.gimmie.model;
 
+import com.gimmie.Configuration;
+import com.gimmie.Gimmie;
+import com.gimmie.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.util.Log;
-
-import com.gimmie.Configuration;
-import com.gimmie.Gimmie;
-
 /**
  * Category model returns from Gimmie service in
- * {@link Gimmie#loadCategory(android.os.Handler, com.gimmie.AsyncResult)} api.
+ * {@link Gimmie#loadCategory(com.gimmie.AsyncResult)} api.
  * 
  * @author llun
  * 
@@ -45,7 +44,7 @@ public class Category extends IDBaseObject {
    *          JSON response from service
    * @param configuration
    *          Gimmie configuration object
-   * @param country
+   * @param countryCode
    *          country code e.g. TH, SG or global
    */
   public Category(JSONObject object, Configuration configuration,

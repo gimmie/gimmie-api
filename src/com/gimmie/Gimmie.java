@@ -689,15 +689,11 @@ public class Gimmie {
 
   /**
    * Load latest 20 recent activities trigger by user in application
-   * 
-   * @param handler
-   *          Android Handler for sending a message when get response from
-   *          Gimmie service
+   *
    * @param result
    *          Last 20 recent activities in collection
    */
-  public void loadRecentActivities(final Handler handler,
-      final AsyncResult<RemoteCollection<Activities>> result) {
+  public void loadRecentActivities(final AsyncResult<RemoteCollection<Activities>> result) {
     invoke("recent_activities", null, new AsyncResult<RawRemoteObject>() {
 
       @Override
@@ -855,7 +851,7 @@ public class Gimmie {
    * @param guestUserID
    */
   public void transferDataFromGuestID(final String guestUserID) {
-    transferDataFromGuestID(null, guestUserID, null);
+    transferDataFromGuestID(guestUserID, null);
   }
 
   /**

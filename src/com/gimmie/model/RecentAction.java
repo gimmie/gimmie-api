@@ -1,18 +1,18 @@
 package com.gimmie.model;
 
-import java.util.Date;
+import com.gimmie.Configuration;
+import com.gimmie.Gimmie;
 
 import org.json.JSONObject;
 
-import com.gimmie.Configuration;
-import com.gimmie.Gimmie;
+import java.util.Date;
 
 /**
  * @deprecated
  * Use {link {@link Activities} instead
  * 
  * Recent action return from
- * {@link Gimmie#loadRecentActions(android.os.Handler, com.gimmie.AsyncResult)}
+ * {@link Gimmie#loadRecentActions(com.gimmie.AsyncResult)}
  * api.
  * 
  * @author llun

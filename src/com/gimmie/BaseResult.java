@@ -1,7 +1,5 @@
 package com.gimmie;
 
-import android.util.Log;
-
 import com.gimmie.model.GimmieError;
 
 /**

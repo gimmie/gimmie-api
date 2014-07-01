@@ -1,8 +1,8 @@
 package com.gimmie.model;
 
-import org.json.JSONObject;
-
 import com.gimmie.Configuration;
+
+import org.json.JSONObject;
 
 public class Mayorship extends IDBaseObject {
 

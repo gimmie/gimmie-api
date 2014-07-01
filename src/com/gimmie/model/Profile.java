@@ -1,18 +1,18 @@
 package com.gimmie.model;
 
-import java.util.ArrayList;
+import com.gimmie.Configuration;
+import com.gimmie.Gimmie;
+import com.gimmie.RemoteObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.gimmie.Configuration;
-import com.gimmie.Gimmie;
-import com.gimmie.RemoteObject;
+import java.util.ArrayList;
 
 /**
  * Profile Object return from
- * {@link Gimmie#getProfile(android.os.Handler, com.gimmie.AsyncResult)} which
+ * {@link Gimmie#getProfile( com.gimmie.AsyncResult)} which
  * include points and claims information.
  * 
  * @author llun

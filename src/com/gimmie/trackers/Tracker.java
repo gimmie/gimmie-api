@@ -1,7 +1,5 @@
 package com.gimmie.trackers;
 
-import com.gimmie.Configuration;
-
 import java.util.Map;
 
 public abstract class Tracker {
@@ -17,17 +15,6 @@ public abstract class Tracker {
   public static final String CATEGORY_NAME_DIMENSION = "category_name";
 
   private static Tracker sTracker;
-
-  public static Tracker getTracker(Configuration configuration) {
-    if (sTracker == null) {
-      synchronized (Tracker.class) {
-        if (sTracker == null) {
-          sTracker = new AggregatedTracker(configuration);
-        }
-      }
-    }
-    return sTracker;
-  }
 
   /**
    * Update Tracker from Configuration

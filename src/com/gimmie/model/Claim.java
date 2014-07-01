@@ -1,17 +1,16 @@
 package com.gimmie.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.gimmie.Configuration;
+import com.gimmie.Gimmie;
+import com.gimmie.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
-import com.gimmie.Configuration;
-import com.gimmie.Gimmie;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Claim object that create after redeem a reward

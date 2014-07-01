@@ -1,12 +1,12 @@
 package com.gimmie.model;
 
-import java.util.ArrayList;
+import com.gimmie.Configuration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.gimmie.Configuration;
+import java.util.ArrayList;
 
 /**
  * Event detail defined in Gimmie portal under game menu

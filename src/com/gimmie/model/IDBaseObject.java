@@ -1,9 +1,9 @@
 package com.gimmie.model;
 
-import org.json.JSONObject;
-
 import com.gimmie.Configuration;
 import com.gimmie.RemoteObject;
+
+import org.json.JSONObject;
 
 /**
  * Abstract base object for providing id method
