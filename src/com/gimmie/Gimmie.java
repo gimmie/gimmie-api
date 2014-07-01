@@ -35,56 +35,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Provide methods for Gimmie API. Before using components or any API, Have to
- * initial Gimmie instance and login with unique user id. Gimmie instance create
- * with context which provide by your application Gimmie read configuration from
- * gimmie.cfg or AndroidManifest.xml file. Gimmie will try read from gimmie.cfg
- * file first and if file is not found, will check AndroidManifest.xml
- * meta-data.
- * 
- * gimmie.cfg method, creaete gimmie.cfg file under assets folder with below
- * format. <strong>api</strong> key is an optional.
- * 
- * <pre>
- * {@code
- * 	{
- *    "key"   : "oauth_key",
- *    "secret": "oauth_secret",
- *    "api"   : "api_url"
- *  }
- * }
- * </pre>
- * 
- * AndroidManifest.xml methods, add meta-data tag under your application with
- * below format.
- * 
- * <pre>
- * {@code
- * <meta-data android:name="com.gimmie.api.key" android:value="oauth_key_from_portal" />
- * <meta-data android:name="com.gimmie.api.secret" android:value="oauth_secret_from_portal" />
- * <meta-data android:name="com.gimmie.api.url" android:value="gimmie api url" />
- * 
- * <meta-data android:name="com.gimmie.notification.system" android:value="true|false" />
- * <meta-data android:name="com.gimmie.notification.id" android:value="integer" />
- * <meta-data android:name="com.gimmie.notification.toast" android:value="true|false" />
- * <meta-data android:name="com.gimmie.notification.popup" android:value="true|false" />
- * 
- * <meta-data android:name="com.gimmie.data.default_country" android:value="country_code" />
- * <meta-data android:name="com.gimmie.data.language" android:value="locale_code" />
- * }
- * </pre>
- * 
- * and get Gimmie object by {@link #getInstance(Context)} or passing oauth_key
- * and oauth_secret directly to getInstance method by
- * {@link #getInstance(Context, String, String)}. After get instance use login
- * method and passing user unique id for login.
- * 
+ * Provide methods for Gimmie API. 
+ *
  * The API URL is in format https://api.gimmieworld.com/1/, so if the domain is
  * change to other e.g. api-service.gimmieworld.com the API will be
  * https://api-service.gimmieworld.com.
  * 
  * <pre>
- * Gimmie gimmie = Gimmie.getInstance(activity);
+ * Gimmie gimmie = Gimmie.getInstance();
  * gimmie.login(user_unique_id);
  * </pre>
  * 
@@ -639,7 +597,7 @@ public class Gimmie {
   }
 
   /**
-   * @deprecated Use {@link Gimmie#loadRecentActivities(Handler, AsyncResult)}
+   * @deprecated Use {@link Gimmie#loadRecentActivities(AsyncResult)}
    *             instead
    * 
    *             Load latest 20 recent action trigger by user in application
