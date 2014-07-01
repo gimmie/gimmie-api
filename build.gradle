@@ -5,10 +5,10 @@ repositories {
 }
 
 dependencies {
-  compile project(':dependencies:json')
-  compile 'org.scribe:scribe:1.3+@jar'
-  compile 'org.apache.httpcomponents:httpclient:4.3+@jar'
-  compile 'org.apache.httpcomponents:httpcore:4.3+@jar'
+  compile 'org.json:json:20140107'
+  compile 'org.scribe:scribe:1.3+'
+  compile 'org.apache.httpcomponents:httpclient:4.3+'
+  compile 'org.apache.httpcomponents:httpcore:4.3+'
 }
 
 sourceSets {
@@ -38,7 +38,7 @@ task listJars << {
 task release (dependsOn: 'build') << {
   copy {
     from configurations.compile.files
-    into "build/libs"
+    into "build/releases"
   }
 }
 

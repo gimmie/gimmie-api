@@ -1,1 +1,1 @@
-include ':dependencies:json'
+rootProject.name = 'gimmie'
