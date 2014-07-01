@@ -35,7 +35,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Provide methods for Gimmie API. 
+ * Provide methods for Gimmie API.
  *
  * The API URL is in format https://api.gimmieworld.com/1/, so if the domain is
  * change to other e.g. api-service.gimmieworld.com the API will be
