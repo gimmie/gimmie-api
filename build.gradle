@@ -1,6 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 
+group = 'com.gimmie'
+version = '1.0'
+
 configurations {
   deployerJars
 }
@@ -50,9 +53,6 @@ task release (dependsOn: 'build') << {
 }
 
 defaultTasks "release"
-
-group = 'com.gimmie'
-version = '1.0'
 
 uploadArchives {
   def username = System.getenv "DEPLOY_USER"
