@@ -33,7 +33,7 @@ public class Category extends IDBaseObject {
    *          JSON response from service
    */
   public Category(JSONObject object, Configuration configuration) {
-    this(object, configuration, configuration.getDefaultCountry());
+    this(object, configuration, configuration.getCountry());
   }
 
   /**
