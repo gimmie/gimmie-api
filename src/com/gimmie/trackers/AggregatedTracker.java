@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Created by keang on 5/27/14.
  */
-public class AggregatedTracker extends Tracker{
+public class AggregatedTracker implements Tracker {
 
   private Configuration mConfiguration;
   private ArrayList<Tracker> mTrackers;
