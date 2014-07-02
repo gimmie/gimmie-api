@@ -38,6 +38,10 @@ public class Configuration {
   
   private Map<String, Object> map = new HashMap<String, Object>(10);
 
+  public Configuration(Map<String, Object> map) {
+    this.map.putAll(map);
+  }
+
   public String getKey() {
     return (String) map.get(API_KEY);
   }

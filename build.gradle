@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'com.gimmie'
-version = '1.0.3'
+version = '1.0.4'
 
 configurations {
   releaseMaven
