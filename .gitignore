@@ -6,6 +6,7 @@
 *.iml
 
 local.properties
+gradle.properties
 
 .gradle/
 gradle/
@@ -19,5 +20,3 @@ out/
 docs/
 doc/
 target/
-dependecies/actionbarsherlock/libs/PK*
-dependecies/viewpager/libs/PK*
