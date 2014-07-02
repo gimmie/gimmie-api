@@ -327,6 +327,14 @@ public class Gimmie {
     });
   }
 
+  public void trigger(String eventName) {
+    trigger(eventName, null);
+  }
+
+  public void trigger(int eventID) {
+    trigger(eventID, null);
+  }
+
   /**
    * Trigger event to Gimmie service with given event name and waiting for get a
    * result.

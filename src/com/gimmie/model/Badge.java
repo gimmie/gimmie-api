@@ -12,7 +12,7 @@ import java.util.Locale;
 
 /**
  * Badge model returns from Gimmie service in
- * {@link Gimmie#loadBadges(android.os.Handler, com.gimmie.AsyncResult, boolean))} api.
+ * {@link com.gimmie.Gimmie#loadBadges(com.gimmie.AsyncResult, boolean))} api.
  * 
  * @author llun
  * 
