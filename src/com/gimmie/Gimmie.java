@@ -36,21 +36,20 @@ import java.util.concurrent.Executors;
 
 /**
  * Provide methods for Gimmie API.
- *
+ * <p>
  * The API URL is in format https://api.gimmieworld.com/1/, so if the domain is
  * change to other e.g. api-service.gimmieworld.com the API will be
  * https://api-service.gimmieworld.com.
- * 
+ * <p>
  * <pre>
  * Gimmie gimmie = Gimmie.getInstance();
  * gimmie.login(user_unique_id);
  * </pre>
- * 
+ * <p>
  * If user doesn't login, the API can using for fetching rewards catalogue but
  * can't trigger or get profile because there is no user information.
- * 
+ *
  * @author llun
- * 
  */
 public class Gimmie {
 
@@ -69,17 +68,15 @@ public class Gimmie {
 
   private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
 
-  private Tracker mTracker;
-  private String mCountry;
-  private String mLocale;
 
   private String mDeviceID;
   private String mUser = "";
 
   private Configuration mConfiguration;
+  private Tracker mTracker;
 
   private Map<String, String> mAdditionInformation = new HashMap<String, String>(
-      2);
+          2);
 
   private static Gimmie mInstance;
 
@@ -88,14 +85,19 @@ public class Gimmie {
   }
 
   public static Gimmie getInstance(Configuration configuration) {
+    return getInstance(configuration, null);
+  }
+
+  public static Gimmie getInstance(Configuration configuration, Tracker tracker) {
     if (mInstance == null) {
-      mInstance = new Gimmie(configuration);
+      mInstance = new Gimmie(configuration, tracker);
     }
     return mInstance;
   }
 
-  Gimmie(Configuration configuration) {
+  Gimmie(Configuration configuration, Tracker tracker) {
     mConfiguration = configuration;
+    mTracker = tracker;
   }
 
   /**
@@ -108,9 +110,8 @@ public class Gimmie {
 
   /**
    * Login user to Gimmie service
-   * 
-   * @param user
-   *          unique user id
+   *
+   * @param user unique user id
    */
   public void login(String user) {
     login(user, null);
@@ -158,23 +159,21 @@ public class Gimmie {
   /**
    * Set country for showing rewards only available in specific country. Default
    * value is global.
-   * 
-   * @param country
-   *          Country code e.g. SG, US or Global. Invalid code will cause
-   *          rewards catalogue empty
+   *
+   * @param country Country code e.g. SG, US or Global. Invalid code will cause
+   *                rewards catalogue empty
    */
   public void setCountry(String country) {
-    mCountry = country.toLowerCase(Locale.US);
+    mConfiguration.setCountry(country.toLowerCase(Locale.US));
   }
 
   /**
    * Set network result language
    *
-   * @param locale
-   *          Country locale code e.g. EN, TH.
+   * @param locale Country locale code e.g. EN, TH.
    */
   public void setLocale(String locale) {
-    mLocale = locale.toLowerCase(Locale.US);
+    mConfiguration.setLanguage(locale);
   }
 
   /**
@@ -212,8 +211,7 @@ public class Gimmie {
   /**
    * Get user profile from Gimmie service
    *
-   * @param result
-   *          Profile result object from Gimmie service
+   * @param result Profile result object from Gimmie service
    */
   public void getProfile(final AsyncResult<Profile> result) {
     invoke("profile", null, new AsyncResult<RawRemoteObject>() {
@@ -240,9 +238,8 @@ public class Gimmie {
 
   /**
    * List all reward categories from Gimmie service
-   * 
-   * @param result
-   *          List of categories object in collection result.
+   *
+   * @param result List of categories object in collection result.
    */
   public void loadCategory(final AsyncResult<RemoteCollection<Category>> result) {
     invoke("categories", null, new AsyncResult<RawRemoteObject>() {
@@ -262,7 +259,7 @@ public class Gimmie {
               JSONObject rawStore = rawCategories.getJSONObject(index);
 
               Category category = new Category(rawStore, mConfiguration,
-                      mCountry);
+                      mConfiguration.getCountry());
               categoryList.add(category);
             }
             result.getResult(new RemoteCollection<Category>(categoryList
@@ -288,12 +285,12 @@ public class Gimmie {
 
   /**
    * Checking with given mayorship id and venue
-   * 
+   *
    * @param id
    * @param venue
    */
   public void checkin(String id, String venue,
-      final AsyncResult<CombineResponse> result) {
+                      final AsyncResult<CombineResponse> result) {
     HashMap<String, String> parameters = new HashMap<String, String>(1);
     parameters.put("venue", venue);
 
@@ -339,13 +336,11 @@ public class Gimmie {
    * Trigger event to Gimmie service with given event name and waiting for get a
    * result.
    *
-   * @param eventName
-   *          Game event name register in Gimmie portal under game menu
-   * @param result
-   *          Actions result configure in Gimmie portal
+   * @param eventName Game event name register in Gimmie portal under game menu
+   * @param result    Actions result configure in Gimmie portal
    */
   public void trigger(final String eventName,
-      final AsyncResult<CombineResponse> result) {
+                      final AsyncResult<CombineResponse> result) {
     HashMap<String, String> input = new HashMap<String, String>(1);
     input.put("event_name", eventName);
 
@@ -386,13 +381,11 @@ public class Gimmie {
    * Trigger event to Gimmie service with given event id and waiting for get a
    * result.
    *
-   * @param eventID
-   *          Game event id register in Gimmie portal under game menu
-   * @param result
-   *          Actions result configure in Gimmie portal
+   * @param eventID Game event id register in Gimmie portal under game menu
+   * @param result  Actions result configure in Gimmie portal
    */
   public void trigger(final int eventID,
-      final AsyncResult<CombineResponse> result) {
+                      final AsyncResult<CombineResponse> result) {
     HashMap<String, String> input = new HashMap<String, String>(1);
     input.put("event_id", String.format("%d", eventID));
 
@@ -435,7 +428,7 @@ public class Gimmie {
    * @param result
    */
   public void redeem(final int rewardID,
-      final AsyncResult<Claim> result) {
+                     final AsyncResult<Claim> result) {
     HashMap<String, String> input = new HashMap<String, String>(1);
     input.put("reward_id", String.format("%d", rewardID));
     input.put("email", "1");
@@ -474,13 +467,11 @@ public class Gimmie {
   /**
    * Get reward information with specific reward id
    *
-   * @param rewardID
-   *          reward that user want to get information
-   * @param result
-   *          Result with reward object.
+   * @param rewardID reward that user want to get information
+   * @param result   Result with reward object.
    */
   public void loadReward(final int rewardID,
-      final AsyncResult<Reward> result) {
+                         final AsyncResult<Reward> result) {
     HashMap<String, String> input = new HashMap<String, String>(1);
     input.put("reward_id", String.format("%d", rewardID));
 
@@ -521,13 +512,11 @@ public class Gimmie {
   /**
    * Load claim, a reward that already redeemed by user, with claim id.
    *
-   * @param claimID
-   *          claim id return when redeem item or list in profile
-   * @param result
-   *          Claim object information
+   * @param claimID claim id return when redeem item or list in profile
+   * @param result  Claim object information
    */
   public void loadClaim(final int claimID,
-      final AsyncResult<Claim> result) {
+                        final AsyncResult<Claim> result) {
     HashMap<String, String> input = new HashMap<String, String>(1);
     input.put("claim_id", String.format("%d", claimID));
 
@@ -568,8 +557,7 @@ public class Gimmie {
   /**
    * List all events available for game.
    *
-   * @param result
-   *          List of all events in collection
+   * @param result List of all events in collection
    */
   public void loadEvents(final AsyncResult<RemoteCollection<Event>> result) {
     invoke("events", null, new AsyncResult<RawRemoteObject>() {
@@ -609,13 +597,11 @@ public class Gimmie {
   }
 
   /**
+   * @param result Last 20 recent action in collection
    * @deprecated Use {@link Gimmie#loadRecentActivities(AsyncResult)}
-   *             instead
-   * 
-   *             Load latest 20 recent action trigger by user in application
-   *
-   * @param result
-   *          Last 20 recent action in collection
+   * instead
+   * <p>
+   * Load latest 20 recent action trigger by user in application
    */
   public void loadRecentActions(final AsyncResult<RemoteCollection<RecentAction>> result) {
     invoke("recent_actions", null, new AsyncResult<RawRemoteObject>() {
@@ -660,8 +646,7 @@ public class Gimmie {
   /**
    * Load latest 20 recent activities trigger by user in application
    *
-   * @param result
-   *          Last 20 recent activities in collection
+   * @param result Last 20 recent activities in collection
    */
   public void loadRecentActivities(final AsyncResult<RemoteCollection<Activities>> result) {
     invoke("recent_activities", null, new AsyncResult<RawRemoteObject>() {
@@ -709,14 +694,12 @@ public class Gimmie {
   /**
    * Load top 20 users
    *
-   * @param type
-   *          top 20 type, can be {@link #TOP_POINTS},
-   *          {@link #TOP_REDEMPTION_PRICES} or {@link #TOP_REDEMPTION_COUNT}
-   * @param players
-   *          Top 20 players
+   * @param type    top 20 type, can be {@link #TOP_POINTS},
+   *                {@link #TOP_REDEMPTION_PRICES} or {@link #TOP_REDEMPTION_COUNT}
+   * @param players Top 20 players
    */
   public void loadTop20(final String type,
-      final AsyncResult<RemoteCollection<TopPlayer>> players) {
+                        final AsyncResult<RemoteCollection<TopPlayer>> players) {
     invoke("top20" + type, null, new AsyncResult<RawRemoteObject>() {
 
       @Override
@@ -757,14 +740,12 @@ public class Gimmie {
   /**
    * Load all badges available
    *
-   * @param result
-   *          badges in collection. All categories and tiers in one flat
-   *          collection
-   * @param progressRequired
-   *          Set to true if progress is required. Will increase loading time
+   * @param result           badges in collection. All categories and tiers in one flat
+   *                         collection
+   * @param progressRequired Set to true if progress is required. Will increase loading time
    */
   public void loadBadges(final AsyncResult<RemoteCollection<Badge>> result,
-      final boolean progressRequired) {
+                         final boolean progressRequired) {
     HashMap<String, String> map = null;
     if (progressRequired) {
       map = new HashMap<String, String>();
@@ -817,7 +798,7 @@ public class Gimmie {
 
   /**
    * Merge all guest user data to application logged in user. Relate issue: #796
-   * 
+   *
    * @param guestUserID
    */
   public void transferDataFromGuestID(final String guestUserID) {
@@ -869,7 +850,7 @@ public class Gimmie {
         if (result == null) return;
 
         final HashMap<String, Object> parameters = new HashMap<String, Object>(
-            2);
+                2);
 
         if (rawResult.isSuccess()) {
           JSONObject raw = rawResult.getOutput();
@@ -904,7 +885,7 @@ public class Gimmie {
         if (result == null) return;
 
         final HashMap<String, Object> parameters = new HashMap<String, Object>(
-            2);
+                2);
 
         if (rawResult.isSuccess()) {
           JSONObject raw = rawResult.getOutput();
@@ -931,8 +912,8 @@ public class Gimmie {
   }
 
   private void invoke(final String target,
-      final Map<String, String> parameters,
-      final AsyncResult<RawRemoteObject> result) {
+                      final Map<String, String> parameters,
+                      final AsyncResult<RawRemoteObject> result) {
     Logger.getInstance().verbose("Call: " + target);
     mExecutor.execute(new Runnable() {
 
@@ -948,8 +929,8 @@ public class Gimmie {
         if (parameters != null) {
           mixinMap.putAll(parameters);
         }
-        if (mLocale != null && mLocale.length() > 0) {
-          mixinMap.put("locale", mLocale);
+        if (mConfiguration.getLanguage() != null && mConfiguration.getLanguage().length() > 0) {
+          mixinMap.put("locale", mConfiguration.getLanguage());
         }
 
         url.append(".json?");

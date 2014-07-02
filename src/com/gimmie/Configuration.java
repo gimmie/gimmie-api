@@ -122,15 +122,17 @@ public class Configuration {
     return 2000;
   }
 
-  public void setDefaultCountry(String country) {
-    map.put(DEFAULT_COUNTRY, country.toUpperCase(Locale.getDefault()));
-  }
+  public void setCountry(String country) { map.put(DATA_COUNTRY, country.toUpperCase(Locale.getDefault())); }
 
-  public String getDefaultCountry() {
+  public String getCountry() {
     if (map.containsKey(DATA_COUNTRY)) {
       return (String) map.get(DATA_COUNTRY);
     }
     return DEFAULT_COUNTRY;
+  }
+
+  public void setLanguage(String language) {
+    map.put(DATA_LANGUAGE, language.toUpperCase(Locale.getDefault()));
   }
 
   public String getLanguage() {
