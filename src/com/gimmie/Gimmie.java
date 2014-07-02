@@ -83,6 +83,10 @@ public class Gimmie {
 
   private static Gimmie mInstance;
 
+  public static Gimmie getInstance() {
+    return mInstance;
+  }
+
   public static Gimmie getInstance(Configuration configuration) {
     if (mInstance == null) {
       mInstance = new Gimmie(configuration);
