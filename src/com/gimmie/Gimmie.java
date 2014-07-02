@@ -10,6 +10,7 @@ import com.gimmie.model.Profile;
 import com.gimmie.model.RecentAction;
 import com.gimmie.model.Reward;
 import com.gimmie.model.TopPlayer;
+import com.gimmie.trackers.NullTracker;
 import com.gimmie.trackers.Tracker;
 
 import org.apache.http.NameValuePair;
@@ -85,7 +86,7 @@ public class Gimmie {
   }
 
   public static Gimmie getInstance(Configuration configuration) {
-    return getInstance(configuration, null);
+    return getInstance(configuration, new NullTracker(Logger.getInstance()));
   }
 
   public static Gimmie getInstance(Configuration configuration, Tracker tracker) {
