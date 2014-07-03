@@ -69,8 +69,6 @@ public class Gimmie {
 
   private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
 
-
-  private String mDeviceID;
   private String mUser = "";
 
   private Configuration mConfiguration;
@@ -99,14 +97,6 @@ public class Gimmie {
   Gimmie(Configuration configuration, Tracker tracker) {
     mConfiguration = configuration;
     mTracker = tracker;
-  }
-
-  /**
-   * Login with device unique ID or generated ID for device that doesn't support
-   * ANDROID_ID.
-   */
-  public void login() {
-    login(mDeviceID);
   }
 
   /**
@@ -175,16 +165,6 @@ public class Gimmie {
    */
   public void setLocale(String locale) {
     mConfiguration.setLanguage(locale);
-  }
-
-  /**
-   * Get generate login id from {@link #login()} method. This login id won't
-   * change even logout.
-   *
-   * @return generate login as String
-   */
-  public String getGeneratedLogin() {
-    return mDeviceID;
   }
 
   /**
