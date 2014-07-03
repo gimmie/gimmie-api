@@ -58,14 +58,10 @@ public class Gimmie {
 
   public static final String LOGIN_INFORMATION_NAME = "name";
   public static final String LOGIN_INFORMATION_EMAIL = "email";
-  private static final String KEY_LOGIN_NAME = "com.gimmie.login";
 
   public static final String TOP_POINTS = "points";
   public static final String TOP_REDEMPTION_PRICES = "prices";
   public static final String TOP_REDEMPTION_COUNT = "redemptions_count";
-
-  private static final String PARAMETER_OUTPUT_KEY = "output";
-  private static final String PARAMETER_ERROR_KEY = "error";
 
   private ExecutorService mExecutor = Executors.newSingleThreadExecutor();
 
@@ -78,10 +74,6 @@ public class Gimmie {
           2);
 
   private static Gimmie mInstance;
-
-  public static Gimmie getInstance() {
-    return mInstance;
-  }
 
   public static Gimmie getInstance(Configuration configuration) {
     return getInstance(configuration, new NullTracker(Logger.getInstance()));
