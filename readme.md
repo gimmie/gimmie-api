@@ -1,10 +1,8 @@
-# Gimmie Android API
+# Gimmie Java API
 
-This project provide Gimmie API wrapper for Java. It can be use on both Android and Normal Java
-application project.
+This project provide Gimmie API for Java application. It can be use on both Android and Normal Java project.
 
-To use it, build this project with gradle and copy all jar files to
-your project.
+To use it, build this project with gradle and copy all jar files to your project.
 
 ## Upload artifacts instruction
 
