@@ -2,7 +2,7 @@
 
 This project provide Gimmie API for Java application. It can be use on both Android and Normal Java project.
 
-To use it, build this project with gradle and copy all jar files to your project.
+To use this API, build this project with gradle and copy all jar files to your project or follow this [quickstart](https://github.com/gimmie/quickstart/blob/master/java.md). 
 
 ## Upload artifacts instruction
 
