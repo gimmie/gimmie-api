@@ -3,7 +3,7 @@ apply plugin: 'maven'
 
 sourceCompatibility = 1.6
 group = 'com.gimmie'
-version = '1.0.3'
+version = '2.0.0-alpha'
 
 configurations {
   releaseMaven
@@ -66,11 +66,11 @@ artifacts {
   archives jar
 }
 
-uploadArchives {
-  repositories.mavenDeployer {
-    configuration = configurations.releaseMaven
-    repository(url: releaseUrl) {
-      authentication userName: username, password: password
-    }
-  }
-}
+// uploadArchives {
+//   repositories.mavenDeployer {
+//     configuration = configurations.releaseMaven
+//     repository(url: releaseUrl) {
+//       authentication userName: username, password: password
+//     }
+//   }
+// }
